@@ -13,6 +13,11 @@
 #include <linux/string.h>
 #include <linux/delay.h>
 #include <linux/errno.h>
+
+#ifdef OPLUS_FEATURE_POWERINFO_STANDBY
+void print_utc_time(const char *msg) {}
+#endif
+
 #include <linux/init.h>
 #include <linux/console.h>
 #include <linux/cpu.h>

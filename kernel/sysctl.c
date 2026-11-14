@@ -354,7 +354,7 @@ int sysctl_camera_opt_enabled = 0;
 int sysctl_frame_rate = 60;
 
 #ifdef CONFIG_OPLUS_FEATURE_AUDIO_OPT
-extern sysctl_sched_impt_tgid;
+extern int sysctl_sched_impt_tgid;
 #endif
 
 int sched_frame_rate_handler(struct ctl_table *table, int write, void __user *buffer, size_t *lenp, loff_t *ppos)

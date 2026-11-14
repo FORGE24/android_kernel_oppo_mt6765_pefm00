@@ -16,6 +16,11 @@
 
 #include <linux/module.h>
 #include <linux/kernel.h>
+#ifdef VENDOR_EDIT
+int black_screen_timer_restart(void) { return 0; }
+int bright_screen_timer_restart(void) { return 0; }
+#endif
+
 #include <linux/input.h>
 #include <linux/interrupt.h>
 #include <linux/platform_device.h>

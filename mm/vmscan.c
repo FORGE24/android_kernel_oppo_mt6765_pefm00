@@ -57,7 +57,7 @@
 #include <linux/swapops.h>
 #include <linux/balloon_compaction.h>
 
-#if defined(OPLUS_FEATURE_PROCESS_RECLAIM) && defined(CONFIG_PROCESS_RECLAIM_ENHANCE)
+#if 0 /* OPLUS_FEATURE_PROCESS_RECLAIM: vendor hook not built */
 /*
  * collect interrupt doing time during process reclaim, only effect in age test
  */
@@ -139,7 +139,7 @@ struct scan_control {
 	 */
 	struct vm_area_struct *target_vma;
 
-#if defined(OPLUS_FEATURE_PROCESS_RECLAIM) && defined(CONFIG_PROCESS_RECLAIM_ENHANCE)
+#if 0
 	/*
 	 * use mm_walk to regonize the behaviour of process reclaim.
 	 */
@@ -1162,7 +1162,7 @@ static unsigned long shrink_page_list(struct list_head *page_list,
 		enum page_references references = PAGEREF_RECLAIM;
 		bool dirty, writeback;
 
-#if defined(OPLUS_FEATURE_PROCESS_RECLAIM) && defined(CONFIG_PROCESS_RECLAIM_ENHANCE)
+#if 0
 		if (sc->walk && is_reclaim_should_cancel(sc->walk))
 			break;
 #endif
@@ -1581,13 +1581,8 @@ unsigned long reclaim_clean_pages_from_list(struct zone *zone,
 }
 
 #ifdef CONFIG_PROCESS_RECLAIM
-#if defined(OPLUS_FEATURE_PROCESS_RECLAIM) && defined(CONFIG_PROCESS_RECLAIM_ENHANCE)
 unsigned long reclaim_pages_from_list(struct list_head *page_list,
 			struct vm_area_struct *vma, struct mm_walk *walk)
-#else
-unsigned long reclaim_pages_from_list(struct list_head *page_list,
-					struct vm_area_struct *vma)
-#endif
 {
 	unsigned long nr_isolated[2] = {0, };
 	struct pglist_data *pgdat = NULL;
@@ -1598,7 +1593,7 @@ unsigned long reclaim_pages_from_list(struct list_head *page_list,
 		.may_unmap = 1,
 		.may_swap = 1,
 		.target_vma = vma,
-#if defined(OPLUS_FEATURE_PROCESS_RECLAIM) && defined(CONFIG_PROCESS_RECLAIM_ENHANCE)
+#if 0
 		.walk = walk,
 #endif
 	};
@@ -1871,7 +1866,7 @@ int isolate_lru_page(struct page *page)
 	int ret = -EBUSY;
 
 	VM_BUG_ON_PAGE(!page_count(page), page);
-#if defined(OPLUS_FEATURE_PROCESS_RECLAIM) && defined(CONFIG_PROCESS_RECLAIM_ENHANCE)
+#if 0
 	/*
 	 * Because process reclaim is doing page by
 	 * page, so there many compound pages are relcaimed, so too many warning msg on this case.

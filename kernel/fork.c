@@ -132,6 +132,7 @@
 
 #if defined(OPLUS_FEATURE_MEMLEAK_DETECT) && defined(CONFIG_ION) && defined(CONFIG_DUMP_TASKS_MEM)
 extern void update_user_tasklist(struct task_struct *tsk);
+void update_user_tasklist(struct task_struct *tsk) {}
 #endif
 /*
  * Protected counters by write_lock_irq(&tasklist_lock)

@@ -21,7 +21,7 @@
 
 #ifdef OPLUS_FEATURE_CAMERA_COMMON
 static bool regulator_status[IMGSENSOR_SENSOR_IDX_MAX_NUM][REGULATOR_TYPE_MAX_NUM] = {
-	{"false"},
+	{false},
 };
 static void check_for_regulator_get(struct REGULATOR *preg, struct device *pdevice, unsigned int sensor_index, unsigned int regulator_index);
 static void check_for_regulator_put(struct REGULATOR *preg, unsigned int sensor_index, unsigned int regulator_index);

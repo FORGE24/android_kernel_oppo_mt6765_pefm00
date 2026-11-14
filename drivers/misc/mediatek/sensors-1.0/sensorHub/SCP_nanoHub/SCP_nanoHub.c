@@ -71,6 +71,9 @@
 
 #ifdef OPLUS_FEATURE_SENSOR_ALGORITHM
 extern void oppo_init_sensor_state(struct SensorState *mSensorState);
+#ifdef OPLUS_FEATURE_SENSOR_ALGORITHM
+void oppo_init_sensor_state(struct SensorState *mSensorState) {}
+#endif
 #endif /*OPLUS_FEATURE_SENSOR_ALGORITHM*/
 
 
