@@ -1791,11 +1791,7 @@ unsigned long ksys_mmap_pgoff(unsigned long addr, unsigned long len,
 
 	flags &= ~(MAP_EXECUTABLE | MAP_DENYWRITE);
 
-#if defined(OPLUS_FEATURE_VIRTUAL_RESERVE_MEMORY) && defined(CONFIG_VIRTUAL_RESERVE_MEMORY)
-	retval = vm_mmap_pgoff_with_check(file, addr, len, prot, flags, pgoff);
-#else
 	retval = vm_mmap_pgoff(file, addr, len, prot, flags, pgoff);
-#endif
 out_fput:
 	if (file)
 		fput(file);

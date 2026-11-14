@@ -7,6 +7,7 @@
 #ifdef OPLUS_FEATURE_UIFIRST
 #include <linux/uifirst/uifirst_sched_common.h>
 #endif /* OPLUS_FEATURE_UIFIRST */
+extern int sysctl_slide_boost_enabled;
 
 DEFINE_PER_CPU(struct task_struct*, migrate_task);
 static int idle_pull_cpu_stop(void *data)
