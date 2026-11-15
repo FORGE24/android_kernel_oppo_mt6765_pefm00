@@ -99,7 +99,13 @@ find "$V" \( -name Makefile -o -name Kbuild -o -name "*.mk" \) -type f 2>/dev/nu
 	| while read -r f; do sed -i 's/-Werror/-Wno-error/g' "$f"; done
 echo "   done"
 
-echo "== [3/3] defconfig: USB gadget serial (ttyGS0 console)"
+echo "== [3/3] defconfig: USB gadget serial + MT6370 TCPC"
+for opt in CONFIG_USB_G_SERIAL CONFIG_TCPC_MT6370; do
+	if ! grep -q "^$opt=y" "$ROOT/arch/arm64/configs/oppo6765_20375_defconfig" 2>/dev/null; then
+		echo "$opt=y" >> "$ROOT/arch/arm64/configs/oppo6765_20375_defconfig"
+		echo "   added $opt"
+	fi
+done
 CONF="$ROOT/arch/arm64/configs/oppo6765_20375_defconfig"
 if ! grep -q "^CONFIG_USB_G_SERIAL=y" "$CONF" 2>/dev/null; then
 	echo "CONFIG_USB_G_SERIAL=y" >> "$CONF"
