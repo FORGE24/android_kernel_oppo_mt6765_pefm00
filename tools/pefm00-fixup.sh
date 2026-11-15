@@ -32,6 +32,67 @@ else:
 PY
 done
 
+echo "== [1b/3] hardcode project 20091 when lookup fails (PEFM00)"
+python3 - "$V/oplus/kernel/system/oplus_project/mtk/oplus_project.c" <<'PY'
+import sys
+p=sys.argv[1]
+s=open(p).read()
+old='''unsigned int get_project(void)
+{
+    init_project_version();
+
+    if(!is_new_cdt()){
+        return get_project_oldcdt();
+    }
+
+    return g_project? g_project->nDataBCDT.ProjectNo : 0;
+}'''
+new='''unsigned int get_project(void)
+{
+    unsigned int r;
+
+    init_project_version();
+
+    if(!is_new_cdt()){
+        r = get_project_oldcdt();
+    } else {
+        r = g_project ? g_project->nDataBCDT.ProjectNo : 0;
+    }
+
+    /* PEFM00: force the A35 id if the DTB lookup failed */
+    if (r == 0)
+        r = 20091;
+
+    return r;
+}'''
+if 'PEFM00: force the A35 id' in s:
+    print('   already patched')
+else:
+    s=s.replace(old,new,1)
+    open(p,'w').write(s)
+    print('   patched get_project')
+PY
+
+python3 - "$V/oplus/kernel/system/oplus_project/mtk/oplus_project_oldcdt.c" <<'PY'
+import sys
+p=sys.argv[1]
+s=open(p).read()
+old='''	if(format)
+		return format->nProject;
+	else
+		return 0;'''
+new='''	if(format)
+		return format->nProject;
+	else
+		return 20091; /* PEFM00 fallback */'''
+if 'PEFM00 fallback' in s:
+    print('   already patched')
+else:
+    s=s.replace(old,new,1)
+    open(p,'w').write(s)
+    print('   patched oldcdt')
+PY
+
 echo "== [2/3] drop -Werror from vendor Makefiles (GCC 13+)"
 find "$V" \( -name Makefile -o -name Kbuild -o -name "*.mk" \) -type f 2>/dev/null \
 	| xargs -r grep -l -- "-Werror" 2>/dev/null \
