@@ -99,6 +99,13 @@ find "$V" \( -name Makefile -o -name Kbuild -o -name "*.mk" \) -type f 2>/dev/nu
 	| while read -r f; do sed -i 's/-Werror/-Wno-error/g' "$f"; done
 echo "   done"
 
+# A35 (20091) 4.19 board overlay: 20271 is the 20091 board dts
+DEFCFG="$ROOT/arch/arm64/configs/oppo6765_20375_defconfig"
+if ! grep -q "mediatek/oppo6765_20271" "$DEFCFG"; then
+	sed -i 's|CONFIG_BUILD_ARM64_DTB_OVERLAY_IMAGE_NAMES="\(.*\)"|CONFIG_BUILD_ARM64_DTB_OVERLAY_IMAGE_NAMES="\1 mediatek/oppo6765_20271"|' "$DEFCFG"
+	echo "   added oppo6765_20271 to dtbo overlay list"
+fi
+
 echo "== [3/3] defconfig: USB gadget serial + MT6370 TCPC"
 for opt in CONFIG_USB_G_SERIAL CONFIG_TCPC_MT6370; do
 	if ! grep -q "^$opt=y" "$ROOT/arch/arm64/configs/oppo6765_20375_defconfig" 2>/dev/null; then
